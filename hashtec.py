@@ -1,10 +1,17 @@
 import utils as util
-from itertools import chain
+
+
+def compute_vector_table(D):
+    V = list()
+    for i, start in enumerate(D[:-1]):
+        for end in D[i+1:]:
+            V.append((util.vectorSubtraction(start, end), i))
+    return V
 
 
 def mtpHashTable(D, V):
     results = dict()
-    for (vector, idx) in V:
+    for vector, idx in V:
         if vector in results.keys():
             results[vector].append(D[idx])
         else:
@@ -23,6 +30,7 @@ def equivClassHashTable(M):
         patHash = list()
         for i in range(len(points) - 1):
             patHash.append(util.vectorSubtraction(points[i], points[i+1]))
+        patHash = tuple(patHash)
 
         if patHash not in results.keys():
             results[patHash] = (points[0], {(0, 0): 1, vector: 1})
@@ -33,21 +41,23 @@ def equivClassHashTable(M):
                 newVector = tuple(- el for el in vector)
                 results[patHash][1][newVector] = 1
             else:
-                pointDiff = util.vectorSubtraction(points[0], results[patHash][0])
-                invertedPointDiff = tuple(- p for p in pointDiff)
-                newVector = util.vectorAddition(invertedPointDiff, vector)
+                pointDiff = util.vectorSubtraction(results[patHash][0], points[0])
+                # invertedPointDiff = tuple(- p for p in pointDiff)
+                newVector = util.vectorAddition(pointDiff, vector)
                 results[patHash][1][newVector] = 1
 
     output = dict()
     for patHash, (firstPoint, transDict) in results.items():
-        output[patHash] = list(transDict.keys())
+        pattern = [firstPoint]
+        for tup in patHash:
+            pattern.append(util.vectorAddition(pattern[-1], tup))
+        output[tuple(pattern)] = list(transDict.keys())
 
     return output
 
 
 def hashTEC(D):
-    Vtable = util.compute_vector_table(D)
-    V = list(chain.from_iterable(Vtable))
+    V = compute_vector_table(D)
     mHash = mtpHashTable(D, V)
     TECs = equivClassHashTable(mHash)
     return TECs
