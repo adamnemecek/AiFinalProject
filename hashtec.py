@@ -4,7 +4,7 @@ import utils as util
 def compute_vector_table(D):
     V = list()
     for i, start in enumerate(D[:-1]):
-        for end in D[i+1:]:
+        for j, end in enumerate(D[i+1:]):
             V.append((util.vectorSubtraction(start, end), i))
     return V
 
@@ -44,6 +44,7 @@ def equivClassHashTable(M):
                 pointDiff = util.vectorSubtraction(results[patHash][0], points[0])
                 # invertedPointDiff = tuple(- p for p in pointDiff)
                 newVector = util.vectorAddition(pointDiff, vector)
+                results[patHash][1][pointDiff] = 1
                 results[patHash][1][newVector] = 1
 
     output = dict()
