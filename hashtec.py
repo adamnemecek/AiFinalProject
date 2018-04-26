@@ -1,5 +1,4 @@
 import utils as util
-import sys
 
 
 def compute_vector_table(D):
@@ -42,9 +41,9 @@ def equivClassHashTable(M):
                 newVector = tuple(- el for el in vector)
                 results[patHash][1][newVector] = 1
             else:
-                pointDiff = util.vectorSubtraction(points[0], results[patHash][0])
-                invertedPointDiff = tuple(- p for p in pointDiff)
-                newVector = util.vectorAddition(invertedPointDiff, vector)
+                pointDiff = util.vectorSubtraction(results[patHash][0], points[0])
+                # invertedPointDiff = tuple(- p for p in pointDiff)
+                newVector = util.vectorAddition(pointDiff, vector)
                 results[patHash][1][newVector] = 1
 
     output = dict()
