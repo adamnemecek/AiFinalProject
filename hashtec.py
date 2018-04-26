@@ -1,16 +1,12 @@
 import utils as util
+import sys
 
 
 def compute_vector_table(D):
     V = list()
     for i, start in enumerate(D[:-1]):
-        vec_list = list()
-        for j, end in enumerate(D[i+1:]):
-            diff = tuple([e - s for s, e in zip(start, end)])
-            res = (diff, i)
-            vec_list.append(res)
-            if j > i:
-                V.append(res)
+        for end in D[i+1:]:
+            V.append((util.vectorSubtraction(start, end), i))
     return V
 
 
@@ -53,7 +49,10 @@ def equivClassHashTable(M):
 
     output = dict()
     for patHash, (firstPoint, transDict) in results.items():
-        output[patHash] = list(transDict.keys())
+        pattern = [firstPoint]
+        for tup in patHash:
+            pattern.append(util.vectorAddition(pattern[-1], tup))
+        output[tuple(pattern)] = list(transDict.keys())
 
     return output
 
