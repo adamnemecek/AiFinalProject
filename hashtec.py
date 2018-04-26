@@ -1,10 +1,22 @@
 import utils as util
-from itertools import chain
+
+
+def compute_vector_table(D):
+    V = list()
+    for i, start in enumerate(D[:-1]):
+        vec_list = list()
+        for j, end in enumerate(D[i+1:]):
+            diff = tuple([e - s for s, e in zip(start, end)])
+            res = (diff, i)
+            vec_list.append(res)
+            if j > i:
+                V.append(res)
+    return V
 
 
 def mtpHashTable(D, V):
     results = dict()
-    for (vector, idx) in V:
+    for vector, idx in V:
         if vector in results.keys():
             results[vector].append(D[idx])
         else:
@@ -23,6 +35,7 @@ def equivClassHashTable(M):
         patHash = list()
         for i in range(len(points) - 1):
             patHash.append(util.vectorSubtraction(points[i], points[i+1]))
+        patHash = tuple(patHash)
 
         if patHash not in results.keys():
             results[patHash] = (points[0], {(0, 0): 1, vector: 1})
@@ -46,8 +59,7 @@ def equivClassHashTable(M):
 
 
 def hashTEC(D):
-    Vtable = util.compute_vector_table(D)
-    V = list(chain.from_iterable(Vtable))
+    V = compute_vector_table(D)
     mHash = mtpHashTable(D, V)
     TECs = equivClassHashTable(mHash)
     return TECs
