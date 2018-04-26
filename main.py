@@ -4,9 +4,15 @@ import synthetic_tests as synth_tests
 import utils as util
 from time import time
 from os.path import join
+from tqdm import tqdm
+import multiprocessing as mp
+import sys
 
 from music_management.paths import DROPBOX_MUSICA_XML_ROOT
 from music_management.music_parser import XMLParser
+from syntheticTestGenerator import randomSampleSetsLinear
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def syntheticDataTest(dataset):
@@ -16,10 +22,11 @@ def syntheticDataTest(dataset):
     startHash = time()
     hashOutput = hashtec.hashTEC(dataset)
     endHash = time()
-    print("Total time for SIATEC: {}\nTotal time for HashTEC: {} seconds".format(endSia - startSia, endHash - startHash))
-    hashTecOutput = [(pat, trans) for pat, trans in hashOutput.items()]
-    equivOutput = util.isEquivTecSets(siaTecOutput, hashTecOutput, dataset)
-    print("SIATEC and HashTEC outputs are equivalent: {} seconds".format(equivOutput))
+    # print("Total time for SIATEC: {}\nTotal time for HashTEC: {} seconds".format(endSia - startSia, endHash - startHash))
+    # hashTecOutput = [(pat, trans) for pat, trans in hashOutput.items()]
+    # equivOutput = util.isEquivTecSets(siaTecOutput, hashTecOutput, dataset)
+    # print("SIATEC and HashTEC outputs are equivalent: {} seconds".format(equivOutput))
+    return endSia - startSia, endHash - startHash
 
 
 def musicDataTest(filename):
@@ -43,13 +50,78 @@ def musicDataTest(filename):
     print("SIATEC and HashTEC outputs are equivalent: {}".format(equivOutput))
 
 
+def pmap(f, xs):
+    result = list()
+    with mp.Pool(mp.cpu_count()) as p:
+        with tqdm(xs) as pbar:
+            for i, val in tqdm(enumerate(p.imap(f, xs))):
+                result.append(val)
+                pbar.update()
+    return result
+
+
+def densityRuntimeTest():
+    densities = [0.001, 0.01, 0.1, 0.5]
+
+    for i, density in enumerate(densities):
+        xaxis = np.arange(10, 510, 10)
+        datasets = randomSampleSetsLinear(10, 500, 10, density=density)
+        # runtimes = pmap(syntheticDataTest, datasets)
+        # siaResults = [sia for sia, _ in runtimes]
+        # hashResults = [hash for _, hash in runtimes]
+
+        siaResults = list()
+        hashResults = list()
+        for dataset in tqdm(datasets, desc="Running for d={}".format(density)):
+            siaRes, hashRes = syntheticDataTest(dataset)
+            siaResults.append(siaRes)
+            hashResults.append(hashRes)
+
+        plt.figure()
+        plt.title("Dataset size vs Runtime on Synthetic data with density={}".format(density))
+        plt.xlabel("Datasets size")
+        plt.ylabel("Runtime in seconds")
+        plt.plot(xaxis, siaResults)
+        plt.plot(xaxis, hashResults)
+        plt.legend(["SIATEC", "HashTEC"])
+        plt.savefig("prelim_results_{}.png".format(i))
+
+
+def multiLengthMusicTest(datasets, xaxis):
+    siaResults = list()
+    hashResults = list()
+    for dataset in tqdm(datasets, desc="Running over datasets"):
+        siaRes, hashRes = syntheticDataTest(dataset)
+        siaResults.append(siaRes)
+        hashResults.append(hashRes)
+
+    plt.figure()
+    plt.title("Dataset size vs Runtime on Synthetic data on music piece")
+    plt.xlabel("Datasets size")
+    plt.ylabel("Runtime in seconds")
+    plt.plot(xaxis, siaResults)
+    plt.plot(xaxis, hashResults)
+    plt.legend(["SIATEC", "HashTEC"])
+    plt.savefig("music_prelim_results.png")
+
 
 def main():
-    test1 = sorted(synth_tests.geometric_data)
-    syntheticDataTest(test1)
+    # test1 = sorted(synth_tests.geometric_data)
+    # syntheticDataTest(test1)
+    #
+    filename = join(DROPBOX_MUSICA_XML_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
+    piecename = filename[filename.rfind("/") + 1: filename.rfind(".xml")]
+    print("Creating note dataset for {}".format(piecename))
+    parser = XMLParser()
+    (_, parts) = parser.parse_score(filepath=filename)
+    dataset = util.pitch_dataset(parts[0]["melody"])
+    bounds = np.arange(10, len(dataset) + 10, 10)
+    datasets = [dataset[:int(b)] for b in bounds]
+    multiLengthMusicTest(datasets, bounds)
+    # musicDataTest(scoreName)
 
-    scoreName = join(DROPBOX_MUSICA_XML_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
-    musicDataTest(scoreName)
+    # densityRuntimeTest()
+    plt.show()
 
 
 if __name__ == '__main__':
