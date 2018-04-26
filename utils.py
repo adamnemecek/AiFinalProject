@@ -1,5 +1,13 @@
 
 
+def vectorAddition(V1, V2):
+    return tuple(v1 + v2 for v1, v2 in zip(V1, V2))
+
+
+def vectorSubtraction(V1, V2):
+    return tuple(v1 - v2 for v1, v2 in zip(V1, V2))
+
+
 # Vector table computation for SIATEC and HashTEC
 def compute_vector_table(D):
     V = list()
