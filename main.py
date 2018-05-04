@@ -6,10 +6,8 @@ from time import time
 from os.path import join
 from tqdm import tqdm
 import multiprocessing as mp
-import sys
 
-# from music_management.paths import DROPBOX_MUSICA_XML_ROOT
-from music_management.music_parser import XMLParser
+from music_parser import XMLParser
 import matplotlib.pyplot as plt
 import numpy as np
 

@@ -1,5 +1,3 @@
-# import MusECI.MusEciDataStructures as eci
-
 
 def enum(**args):
     return type('Enum', (), args)

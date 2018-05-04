@@ -1,4 +1,4 @@
-from music_management.music_utils import MusicElement
+from music_utils import MusicElement
 import numpy as np
 
 

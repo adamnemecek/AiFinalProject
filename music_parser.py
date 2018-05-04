@@ -6,9 +6,9 @@ from tqdm import tqdm
 from os import walk
 # import sys
 
-from music_management.music_utils import get_pitch_val, get_key_type, get_key_root, get_bpm
-from music_management.music_utils import assign_dur_label   # determine_duration
-from music_management.music_utils import KeyType, MusicElement
+from music_utils import get_pitch_val, get_key_type, get_key_root, get_bpm
+from music_utils import assign_dur_label   # determine_duration
+from music_utils import KeyType, MusicElement
 
 
 class XMLParser(object):
