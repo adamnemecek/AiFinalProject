@@ -9,7 +9,6 @@ from os import walk
 from music_management.music_utils import get_pitch_val, get_key_type, get_key_root, get_bpm
 from music_management.music_utils import assign_dur_label   # determine_duration
 from music_management.music_utils import KeyType, MusicElement
-from music_management.paths import DROPBOX_MUSICA_XML_ROOT
 
 
 class XMLParser(object):
@@ -38,7 +37,7 @@ class XMLParser(object):
             return None
         return fp
 
-    def parse_music_scores(self, music_path=DROPBOX_MUSICA_XML_ROOT, save_name="jazz_data"):
+    def parse_music_scores(self, music_path="./", save_name="parker_data"):
         """
         This function creates a dictionary of all the scores found in a recursive search
         of the directory passed in as the music_path argument. All scores found are parsed
@@ -205,7 +204,7 @@ class XMLParser(object):
         result["melody"] = new_melody
         return result
 
-    def parse_score(self, filepath=join(DROPBOX_MUSICA_XML_ROOT, "Barney Bigard - Tiger Rag solo 1.xml")):
+    def parse_score(self, filepath=""):
         """
         This function parses a MusicXML score into a list of parts found in the score.
 

@@ -8,11 +8,13 @@ from tqdm import tqdm
 import multiprocessing as mp
 import sys
 
-from music_management.paths import DROPBOX_MUSICA_XML_ROOT
+# from music_management.paths import DROPBOX_MUSICA_XML_ROOT
 from music_management.music_parser import XMLParser
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+PARKER_ROOT = "./charlier_parker_data/"
 
 def syntheticDataTest(dataset):
     startSia = time()
@@ -113,7 +115,7 @@ def main():
     test1 = sorted(synth_tests.regular_dataset)
     syntheticDataTest(test1)
 
-    filename = join(DROPBOX_MUSICA_XML_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
+    filename = join(PARKER_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
     # piecename = filename[filename.rfind("/") + 1: filename.rfind(".xml")]
     # print("Creating note dataset for {}".format(piecename))
     # parser = XMLParser()
