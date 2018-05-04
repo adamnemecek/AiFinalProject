@@ -1,2 +1,3 @@
 Final project option: 1
-Alex Katzfey    akatzfey@email.arizona.edu  HashTEC algorithm testing, plot generation, writeup 
+Alex Katzfey    akatzfey@email.arizona.edu      HashTEC algorithm testing, synthetic data creation, plot generation, writeup of sections 3 and 4
+Paul Hein       pauldhein@email.arizona.edu     HashTEC algorithm planning and implementation, comparative results planning, optimality proof writeup, writeup of sections 2 and 5
