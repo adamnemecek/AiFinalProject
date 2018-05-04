@@ -1,0 +1,2 @@
+Final project option: 1
+Alex Katzfey    akatzfey@email.arizona.edu  HashTEC algorithm testing, plot generation, writeup 

@@ -54,6 +54,7 @@ def vectorSubtraction(V1, V2):
 
 
 def diagnoseDiff(T1, T2, D):
+    print("{} total TECs in 1\t{} total TECs in 2".format(len(T1), len(T2)))
     sets1 = getTecSetRep(T1)
     sets2 = getTecSetRep(T2)
 

@@ -28,7 +28,11 @@ def syntheticDataTest(dataset):
     if not equivOutput:
         util.diagnoseDiff(siaTecOutput, hashTecOutput, dataset)
 
-    print("SIATEC and HashTEC outputs are equivalent: {} seconds".format(equivOutput))
+    print("HashTEC output:")
+    for tec in hashTecOutput:
+        print(tec)
+
+    # print("SIATEC and HashTEC outputs are equivalent: {} seconds".format(equivOutput))
     return endSia - startSia, endHash - startHash
 
 
@@ -106,10 +110,10 @@ def multiLengthMusicTest(datasets, xaxis):
 
 
 def main():
-    test1 = sorted(synth_tests.big_shifted_retro_dataset)
+    test1 = sorted(synth_tests.regular_dataset)
     syntheticDataTest(test1)
 
-    # filename = join(DROPBOX_MUSICA_XML_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
+    filename = join(DROPBOX_MUSICA_XML_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
     # piecename = filename[filename.rfind("/") + 1: filename.rfind(".xml")]
     # print("Creating note dataset for {}".format(piecename))
     # parser = XMLParser()
@@ -119,10 +123,10 @@ def main():
     # datasets = [dataset[:int(b)] for b in bounds]
     # multiLengthMusicTest(datasets, bounds)
 
-    # musicDataTest(scoreName)
+    # musicDataTest(filename)
 
     # densityRuntimeTest()
-    plt.show()
+    # plt.show()
 
 
 if __name__ == '__main__':
