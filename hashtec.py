@@ -32,7 +32,7 @@ def equivClassHashTable(M):
                 MaxVecShift.append(util.vectorAddition(MaxVecShift[-1], diff))
             results[tuple(MaxVecShift)] = 0
 
-    return list(result.keys())
+    return list(results.keys())
 
 
         # pointSets = powerset(points)
@@ -67,7 +67,7 @@ def equivClassHashTable(M):
     # return output
 
 
-def buildTECset(curMax, curPattern, tecs, curDict):
+# def buildTECset(curMax, curPattern, tecs, curDict):
     # if len(curDict.keys()) == 1:
     #     translators = list(curDict[None][1].keys())
     #     return len(translators), {tuple(curPattern): translators}
@@ -95,8 +95,9 @@ def buildTECset(curMax, curPattern, tecs, curDict):
 
 def hashTEC(D):
     V = compute_vector_table(D)
-    # print(V)
+    print("V done")
     mHash = mtpHashTable(D, V)
-    # print(mHash)
+    print("mHash done")
     TECs = equivClassHashTable(mHash)
+    print("TECs done")
     return TECs

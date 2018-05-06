@@ -22,15 +22,19 @@ def syntheticDataTest(dataset):
     hashOutput = hashtec.hashTEC(dataset)
     endHash = time()
     print("Total time for SIATEC: {}\nTotal time for HashTEC: {} seconds".format(endSia - startSia, endHash - startHash))
-    hashTecOutput = [(pat, trans) for pat, trans in hashOutput.items()]
-    equivOutput = util.isEquivTecSets(siaTecOutput, hashTecOutput)
 
-    if not equivOutput:
-        util.diagnoseDiff(siaTecOutput, hashTecOutput, dataset)
+    # print("HASH OUTPUT: " + str(hashOutput))
+    # print("SIA OUTPUT: " + str(siaTecOutput))
+    # hashTecOutput = [key for key in hashOutput]
 
-    print("HashTEC output:")
-    for tec in hashTecOutput:
-        print(tec)
+    # equivOutput = util.isEquivTecSets(siaTecOutput, hashTecOutput)
+    #
+    # if not equivOutput:
+    #     util.diagnoseDiff(siaTecOutput, hashTecOutput, dataset)
+
+    # print("HashTEC output:")
+    # for tec in hashTecOutput:
+    #     print(tec)
 
     # print("SIATEC and HashTEC outputs are equivalent: {} seconds".format(equivOutput))
     return endSia - startSia, endHash - startHash
@@ -68,7 +72,7 @@ def pmap(f, xs):
 
 
 def densityRuntimeTest():
-    densities = [0.001, 0.01, 0.1, 0.5]
+    densities = [0.001, 0.01, 0.1, 1.0]
 
     for i, density in enumerate(densities):
         xaxis = np.arange(10, 510, 10)
@@ -110,10 +114,10 @@ def multiLengthMusicTest(datasets, xaxis):
 
 
 def main():
-    test1 = sorted(synth_tests.regular_dataset)
-    syntheticDataTest(test1)
-
-    filename = join(PARKER_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
+    # test1 = sorted(synth_tests.regular_dataset)
+    # syntheticDataTest(test1)
+    #
+    # filename = join(PARKER_ROOT, "be_bop/Charlie Parker - Donna_Lee.xml")
     # piecename = filename[filename.rfind("/") + 1: filename.rfind(".xml")]
     # print("Creating note dataset for {}".format(piecename))
     # parser = XMLParser()
@@ -125,8 +129,8 @@ def main():
 
     # musicDataTest(filename)
 
-    # densityRuntimeTest()
-    # plt.show()
+    densityRuntimeTest()
+    plt.show()
 
 
 if __name__ == '__main__':
