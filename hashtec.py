@@ -1,5 +1,5 @@
 import utils as util
-from itertools import chain, combinations
+# from itertools import chain, combinations
 
 
 def compute_vector_table(D):
@@ -13,11 +13,10 @@ def compute_vector_table(D):
 def mtpHashTable(D, V):
     results = dict()
     for vector, idx in V:
-        if vector in results.keys():
+        if vector in results:
             results[vector].append(D[idx])
         else:
             results[vector] = [D[idx]]
-
     return results
 
 
@@ -95,9 +94,9 @@ def equivClassHashTable(M):
 
 def hashTEC(D):
     V = compute_vector_table(D)
-    print("V done")
+    # print("V done")
     mHash = mtpHashTable(D, V)
-    print("mHash done")
+    # print("mHash done")
     TECs = equivClassHashTable(mHash)
-    print("TECs done")
+    # print("TECs done")
     return TECs

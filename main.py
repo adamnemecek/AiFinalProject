@@ -14,6 +14,7 @@ import numpy as np
 
 PARKER_ROOT = "./charlier_parker_data/"
 
+
 def syntheticDataTest(dataset):
     startSia = time()
     siaTecOutput = siatec.siatec(dataset)
